@@ -1,0 +1,16 @@
+.gitignore~
+.DS_Store
+.metadata/
+*.java~
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+local.properties
+.settings/
+.loadpath
+.project
+.classpath
+target/
+
