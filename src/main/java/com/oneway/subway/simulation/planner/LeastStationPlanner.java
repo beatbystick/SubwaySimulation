@@ -10,6 +10,11 @@ import com.oneway.subway.simulation.model.Stop;
 import com.oneway.subway.simulation.model.Trip;
 import com.oneway.subway.simulation.model.TripStop;
 
+/**
+ * This uses a simple BFS search
+ * @author Beatbystick
+ *
+ */
 public class LeastStationPlanner implements Planner {
 
 	@Override

@@ -1,8 +1,22 @@
 package com.oneway.subway.simulation.model;
 
+/**
+ * Represents route between stops
+ * @author Beatbystick
+ *
+ */
 public class Route {
 	private String trainName;
 	private Stop toStop;
+	private int duration;
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+	
 	
 	public Route(String trainName, Stop toStop) {
 		this.toStop = toStop;
@@ -38,5 +52,5 @@ public class Route {
 		hash = 31 * hash + toStop.getName().hashCode();
 		return hash;
 	}
-	
+
 }

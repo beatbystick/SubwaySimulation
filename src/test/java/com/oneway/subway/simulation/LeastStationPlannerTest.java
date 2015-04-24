@@ -48,7 +48,7 @@ public class LeastStationPlannerTest
 	}
 	
 	@Test
-	public void duplicateAddTrainTest() {
+	public void overlapAddTrainTest() {
 		//Duplicate routes different train
 		List<String> train2 = new ArrayList<String>();
 		train2.add("0");
@@ -103,7 +103,7 @@ public class LeastStationPlannerTest
 		answer.add("3");
 		Trip trip = subwaySystem.takeTrain("1", "3");
 		Assert.assertTrue(trip.isTripFound());
-		Assert.assertTrue(checkAnswer(answer, trip.getStops()));
+		Assert.assertTrue(TestHelper.checkAnswer(answer, trip.getStops()));
 
 		//No movement
 		trip = subwaySystem.takeTrain("1", "1");
@@ -118,14 +118,14 @@ public class LeastStationPlannerTest
 		answer.add("2");
 		trip = subwaySystem.takeTrain("1", "2");
 		Assert.assertTrue(trip.isTripFound());
-		Assert.assertTrue(checkAnswer(answer, trip.getStops()));
+		Assert.assertTrue(TestHelper.checkAnswer(answer, trip.getStops()));
 
 		answer = new ArrayList<String>();
 		answer.add("2");
 		answer.add("3");
 		trip = subwaySystem.takeTrain("2", "3");
 		Assert.assertTrue(trip.isTripFound());
-		Assert.assertTrue(checkAnswer(answer, trip.getStops()));
+		Assert.assertTrue(TestHelper.checkAnswer(answer, trip.getStops()));
 
 		List<String> newTrain = new ArrayList<String>();
 		newTrain.add("5");
@@ -151,7 +151,7 @@ public class LeastStationPlannerTest
 		answer.add("3");
 		Trip trip = subwaySystem.takeTrain("1", "3");
 		Assert.assertTrue(trip.isTripFound());
-		Assert.assertTrue(checkAnswer(answer, trip.getStops()));
+		Assert.assertTrue(TestHelper.checkAnswer(answer, trip.getStops()));
 	}
 
 	@Test
@@ -167,12 +167,12 @@ public class LeastStationPlannerTest
 		answer.add("4");
 		Trip trip = subwaySystem.takeTrain("1", "4");
 		Assert.assertTrue(trip.isTripFound());
-		Assert.assertTrue(checkAnswer(answer, trip.getStops()));
+		Assert.assertTrue(TestHelper.checkAnswer(answer, trip.getStops()));
 
 		trip = subwaySystem.takeTrain("2", "4");
 		Assert.assertTrue(trip.isTripFound());
 		Assert.assertEquals(3, trip.getStops().size());
-		Assert.assertTrue(checkRoute(trip.getStops(), subwaySystem.getMap().get("2"), 1));
+		Assert.assertTrue(TestHelper.checkRoute(trip.getStops(), subwaySystem.getMap().get("2"), 1));
 
 		//New shortcut
 		newTrain = new ArrayList<String>();
@@ -183,43 +183,9 @@ public class LeastStationPlannerTest
 		trip = subwaySystem.takeTrain("2", "4");
 		Assert.assertTrue(trip.isTripFound());
 		Assert.assertEquals(2, trip.getStops().size());
-		Assert.assertTrue(checkRoute(trip.getStops(), subwaySystem.getMap().get("2"), 1));
+		Assert.assertTrue(TestHelper.checkRoute(trip.getStops(), subwaySystem.getMap().get("2"), 1));
 
 	}
 	
-	private boolean checkAnswer(List<String> answer, List<String> output) {
-		Assert.assertEquals(answer.size(), output.size());
-		for (int i=0; i<answer.size(); i++) {
-			if (!answer.get(i).equals(output.get(i))) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	//Naively checking legal routes 
-	private boolean checkRoute(List<String> output, Stop currentStop, int outputCheckIndex) {
-		if (outputCheckIndex >= output.size()) {
-			return false;
-		}
-
-		String checkStop = output.get(outputCheckIndex);
-		List<Route> currentRoutes = currentStop.getOutGoingRoutes();
-		if (currentRoutes != null) {
-			Stop mapStop = null;
-			for (Route r : currentRoutes) {
-				mapStop = r.getToStop();
-				if (mapStop.getName().equals(checkStop)) {
-					if (outputCheckIndex == output.size() -1) {
-						return true;
-					} else {
-						return checkRoute(output, mapStop, outputCheckIndex+1);
-					}
-				}
-			}
-		}
-		return false;
-	}
 
 }
